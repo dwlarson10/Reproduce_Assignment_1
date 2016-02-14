@@ -1,43 +1,143 @@
 ---
-  title: "PA1_template"
+title: "PA1_template"
 author: "DanLarson"
 date: "February 13, 2016"
 output: html_document
 ---
-  
-  ## Part 1
-  
-  Load the data and the required packages. For this assignment I used ggplot2, dplyr, and tidyr. ggplot2 is for the figure development whil dplyr and tidyr are used for data wrangling. 
 
-```{r,echo=FALSE}
+## Part 1
 
-# load required packages
-require(ggplot2)
-require(dplyr)
-require(tidyr)
-
-activity <- tbl_df(read.csv("activity.csv",header=TRUE))
+Load the data and the required packages. For this assignment I used ggplot2, dplyr, and tidyr. ggplot2 is for the figure development whil dplyr and tidyr are used for data wrangling. 
 
 
-```
 
 ##Part 2
 
 Develop a histogram that shows the distribution of total steps per day. 
 
-```{r}
 
+```r
+require(ggplot2)
+require(dplyr)
+require(tidyr)
 activity$date <- as.Date(activity$date)
 activity <- subset(activity,!is.na(steps))
 activityDay <- group_by(activity,date) %>% summarise(total_steps = sum(steps))
-ggplot(data=activityDay,aes(x=total_steps))+geom_histogram(bins = 10,col="red")+
-  ggtitle("Distribution of Total Steps per Day")
+ggplot(data=activityDay,aes(x=total_steps))+geom_histogram(bins = 10,col="red")+ggtitle("Distribution of Total Steps per Day")
 ```
 
-The mean for steps is 37.38 and the median is 0. Below is the full summary statistics for the variable. 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
 
-```{r}
+##Part 3
+
+Mean and median number of steps taken each day
+
+
+```r
 summary(activity$steps)
 ```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00    0.00    0.00   37.38   12.00  806.00
+```
+
+## Part 4
+
+Time series plot of the average number of steps taken
+
+
+```r
+require(ggplot2)
+require(dplyr)
+require(tidyr)
+activityInt <- group_by(activity,interval) %>% summarise(total_steps = mean(steps))
+ggplot(data=activityInt,aes(x=interval,y=total_steps))+geom_line()+
+  ggtitle("Mean Steps per 5 Minute Interval")
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+
+## Part 5
+
+The 5-minute interval that, on average, contains the maximum number of steps
+
+
+
+```r
+require(ggplot2)
+require(dplyr)
+require(tidyr)
+head(arrange(activityInt,desc(total_steps)))
+```
+
+```
+## Source: local data frame [6 x 2]
+## 
+##   interval total_steps
+##      (int)       (dbl)
+## 1      835    206.1698
+## 2      840    195.9245
+## 3      850    183.3962
+## 4      845    179.5660
+## 5      830    177.3019
+## 6      820    171.1509
+```
+
+
+## Part 6
+
+Code to describe and show a strategy for imputing missing data
+
+
+
+## Part 7 
+
+Histogram of the total number of steps taken each day after missing values are imputed
+
+
+```r
+# load required packages
+require(ggplot2)
+require(dplyr)
+require(tidyr)
+
+activityNew <- subset(activityNew,!is.na(steps))
+activityDay <- group_by(activityNew,date) %>% summarise(total_steps = sum(steps))
+ggplot(data=activityDay,aes(x=total_steps))+geom_histogram(bins = 10,col="red")+
+  ggtitle("Distribution of Steps with Missing data replaced")
+```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
+
+## Part 8
+
+Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
+
+
+```r
+# load required packages
+require(ggplot2)
+require(dplyr)
+require(tidyr)
+
+# Part 8
+#Identify Weekday
+activityNew$dow<-format(activityNew$date,
+                     format = "%A")
+#Identify Weekend/Weekday feature
+activityNew$weekEnd <- ifelse(activityNew$dow=="Saturday","Weekend",
+                              ifelse(activityNew$dow=="Sunday","Weekend","Weekday"))
+
+#Panel Plot
+activityIntWeekend <- group_by(activityNew,weekEnd,interval) %>% summarise(total_steps = mean(steps))
+d<-ggplot(data=activityIntWeekend,aes(x=interval,y=total_steps,color=weekEnd))+
+            geom_line()+
+            facet_wrap(~weekEnd,nrow = 2,ncol = 1)+
+            ggtitle("Mean Steps per 5 Minute Interval")
+ggsave(d,file="Figures/stepIntervalWeekend.png",height = 6,width = 6)
+```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8-1.png)
 
 
