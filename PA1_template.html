@@ -224,16 +224,16 @@ ggplot(data=activityDay,aes(x=total_steps))+geom_histogram(bins = 10,col=&quot;r
 
 <p>Mean and median number of steps taken each day</p>
 
-<pre><code class="r">summary(activity$steps)
+<pre><code class="r">summary(activityDay$total_steps) 
 </code></pre>
 
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    0.00    0.00    0.00   37.38   12.00  806.00
+##      41    8841   10760   10770   13290   21190
 </code></pre>
 
 <h2>Part 4</h2>
 
-<p>Time series plot of the average number of steps taken</p>
+<p>Time series plot of the average number of steps taken. From the graph you can see their is a spike in the number of steps in the morning. </p>
 
 <pre><code class="r">require(ggplot2)
 require(dplyr)
@@ -247,7 +247,7 @@ ggplot(data=activityInt,aes(x=interval,y=total_steps))+geom_line()+
 
 <h2>Part 5</h2>
 
-<p>The 5-minute interval that, on average, contains the maximum number of steps</p>
+<p>The 5-minute interval that, on average, contains the maximum number of steps. Arranging the file and providing the first ten shows the top intervals. That data show that the most steps are recorded at the 8:35 interval. </p>
 
 <pre><code class="r">require(ggplot2)
 require(dplyr)
@@ -269,11 +269,11 @@ head(arrange(activityInt,desc(total_steps)))
 
 <h2>Part 6</h2>
 
-<p>Code to describe and show a strategy for imputing missing data</p>
+<p>Code to describe and show a strategy for imputing missing data. To replace the missing data I first identified the rows. Then I replaced NA with the the average steps for that interval.</p>
 
 <h2>Part 7</h2>
 
-<p>Histogram of the total number of steps taken each day after missing values are imputed</p>
+<p>Histogram of the total number of steps taken each day after missing values are imputed. Replotted the histogram. The data look roughly the same. </p>
 
 <pre><code class="r"># load required packages
 require(ggplot2)
@@ -290,7 +290,7 @@ ggplot(data=activityDay,aes(x=total_steps))+geom_histogram(bins = 10,col=&quot;r
 
 <h2>Part 8</h2>
 
-<p>Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends</p>
+<p>Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends. The steps on weekends are more evenly distributed throughout the day. </p>
 
 <pre><code class="r"># load required packages
 require(ggplot2)

@@ -34,17 +34,17 @@ Mean and median number of steps taken each day
 
 
 ```r
-summary(activity$steps)
+summary(activityDay$total_steps) 
 ```
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    0.00    0.00    0.00   37.38   12.00  806.00
+##      41    8841   10760   10770   13290   21190
 ```
 
 ## Part 4
 
-Time series plot of the average number of steps taken
+Time series plot of the average number of steps taken. From the graph you can see their is a spike in the number of steps in the morning. 
 
 
 ```r
@@ -60,8 +60,7 @@ ggplot(data=activityInt,aes(x=interval,y=total_steps))+geom_line()+
 
 ## Part 5
 
-The 5-minute interval that, on average, contains the maximum number of steps
-
+The 5-minute interval that, on average, contains the maximum number of steps. Arranging the file and providing the first ten shows the top intervals. That data show that the most steps are recorded at the 8:35 interval. 
 
 
 ```r
@@ -87,13 +86,13 @@ head(arrange(activityInt,desc(total_steps)))
 
 ## Part 6
 
-Code to describe and show a strategy for imputing missing data
+Code to describe and show a strategy for imputing missing data. To replace the missing data I first identified the rows. Then I replaced NA with the the average steps for that interval.
 
 
 
 ## Part 7 
 
-Histogram of the total number of steps taken each day after missing values are imputed
+Histogram of the total number of steps taken each day after missing values are imputed. Replotted the histogram. The data look roughly the same. 
 
 
 ```r
@@ -112,7 +111,7 @@ ggplot(data=activityDay,aes(x=total_steps))+geom_histogram(bins = 10,col="red")+
 
 ## Part 8
 
-Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends
+Panel plot comparing the average number of steps taken per 5-minute interval across weekdays and weekends. The steps on weekends are more evenly distributed throughout the day. 
 
 
 ```r
