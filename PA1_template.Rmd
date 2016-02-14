@@ -26,12 +26,11 @@ activity <- tbl_df(read.csv("activity.csv",header=TRUE))
 Develop a histogram that shows the distribution of total steps per day. 
 
 ```{r}
-
+require(ggplot2)
 activity$date <- as.Date(activity$date)
 activity <- subset(activity,!is.na(steps))
 activityDay <- group_by(activity,date) %>% summarise(total_steps = sum(steps))
-ggplot(data=activityDay,aes(x=total_steps))+geom_histogram(bins = 10,col="red")+
-    ggtitle("Distribution of Total Steps per Day")
+ggplot(data=activityDay,aes(x=total_steps))+geom_histogram(bins = 10,col="red")+ggtitle("Distribution of Total Steps per Day")
 ```
 
 The mean for steps is 37.38 and the median is 0. Below is the full summary statistics for the variable. 
