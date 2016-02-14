@@ -32,9 +32,10 @@ arrange(activityInt,desc(total_steps))
 
 
 # Part 6: Recode the NAs
-nas <- is.na(activity$steps)
-avg_interval <- tapply(activity$steps, activity$interval, mean, na.rm=TRUE, simplify=TRUE)
-activityNew$steps[nas] <- avg_interval[as.character(activity$interval[nas])]
+activityNew <- activity
+nas <- is.na(activityNew$steps)
+avg_interval <- tapply(activityNew$steps, activityNew$interval, mean, na.rm=TRUE, simplify=TRUE)
+activityNew$steps[nas] <- avg_interval[as.character(activityNew$interval[nas])]
 
 # Part 7
 activityNew <- subset(activityNew,!is.na(steps))
